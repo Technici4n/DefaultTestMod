@@ -1,0 +1,6 @@
+type = "mod"
+id = "base"
+name = "Base Mod"
+version = "0.0.0"
+authors = []
+description = "The game's base mod. It adds all the default content."
