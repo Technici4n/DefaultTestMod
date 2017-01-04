@@ -22,7 +22,7 @@ gltest.register_item({
     }
   })
 
-gltest.add_item_tooltip("base:shovel_dirt", function(itemstack) return gltest.translate("[[default:tooltip.uses_left]]", itemstack.props[1]))
+gltest.add_item_tooltip("base:shovel_dirt", function(itemstack) return { "[[default:tooltip.uses_left]]", itemstack.props[1] } end)
 
 gltest.register_block({
     name = "base:grass",

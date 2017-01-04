@@ -1,6 +1,9 @@
+[blocks]
 grass = "Grass"
 dirt = "Dirt"
 
+[items]
 shovel_dirt = "Dirt Shovel"
 
-tooltip.uses_left = "{0} uses left."
+[misc]
+"tooltip.uses_left" = "{0} uses left."
