@@ -1,2 +1,6 @@
 grass = "Grass"
 dirt = "Dirt"
+
+shovel_dirt = "Dirt Shovel"
+
+tooltip.uses_left = "{0} uses left."
