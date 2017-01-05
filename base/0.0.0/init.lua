@@ -1,28 +1,21 @@
-gltest.register_tooltype("shovel", { 3.0 }) -- Tool levels need a default mining speed (hardness units / second)
-
 gltest.register_item({
     name = "base:shovel_dirt",
     model = {
       name = "gltest:itemicon",
       options = { texture = "base:shovel_dirt.png" }
     },
-    attributes = {
-      properties = 1,         -- Defaults to 0. Properties can store any value and are unique for each itemstack/blockstack
-      shovel_tool = 1,        -- Can mine any block with the property "shovel_mineable"
-      shovel_speed = 3.0,     -- Useless because it overrides 3.0
-      shovel_used =           -- When it is used as a shovel
-        function(itemstack, block)
-          itemstack.props[1] = itemstack.props[1] - 1
-          if itemstack.props[1] <= 0 then
-            itemstack.clear()
-          end
-          return itemstack
-        end,
-      max_stack_size = 1           -- 64 by default
-    }
+    properties = 1,
+    max_stack_size = 1,
+    block_dig_time = function(itemstack, blockstack)
+      return itemstack.get_attribute("shovel_harvestable") and blockstack.hardness * 0.9 or blockstack.hardness end
+    on_block_dig = function(itemstack, blockstack)
+      itemstack.props[0] = itemstack.props[0] - 1
+      if itemstack.props[0] <= 0 then itemstack.clear() end
+      return blockstack.get_drops()
+    end
   })
 
-gltest.add_item_tooltip("base:shovel_dirt", function(itemstack) return { "[[default:tooltip.uses_left]]", itemstack.props[1] } end)
+gltest.add_item_tooltip("base:shovel_dirt", 8, function(itemstack) return { "[[default:tooltip.uses_left]]\n", itemstack.props[1] } end) -- 8 is the tooltip priority
 
 gltest.register_block({
     name = "base:grass",
@@ -35,10 +28,10 @@ gltest.register_block({
       }
     },
     attributes = {
-      shovel_mineable = 1,   -- Shovel level necessary to break the block
-      shovel_hardness = 10.0 -- Hardness units (tool specific)
+      shovel_harvestable = 1, -- Shovel level necessary to break the block
+      hardness = 3.0          -- Hardness units
     },
-    drops = function(blockstack, toolstack) return ItemStack("base:dirt") end
+    get_drops = function(blockstack, toolstack) return "base:dirt" end
   })
 
 gltest.register_block({
@@ -48,7 +41,7 @@ gltest.register_block({
       options = { face = "base:dirt.png" }
     },
     attributes = {
-      shovel_mineable = 1,
-      shovel_hardness = 10.0
+      shovel_harvestable = 1,
+      hardness = 3.0
     }
   })
